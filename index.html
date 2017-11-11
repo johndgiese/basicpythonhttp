@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pharma LRP</title>
+  </head>
+  <body>
+    <input id="input-a" type="number">
+    <input id="input-b" type="number">
+    <button id="calculate-simulation-button" type="button">Add Numbers</button>
+    <p id="result"></p>
+
+    <script>
+      const calculateSimulationButton = document.getElementById('calculate-simulation-button');
+      const inputA = document.getElementById('input-a');
+      const inputB = document.getElementById('input-b');
+      const resultParagraph = document.getElementById('result');
+
+      calculateSimulationButton.onclick = () => {
+        let httpRequestData = {
+          exampleList: [1, 2, "hello"],
+          exampleNestedObject: {
+            firstName: 'Obba',
+            lastName: 'Dooba',
+          },
+          thingsToAdd: [Number(inputA.value), Number(inputB.value)],
+        };
+
+        fetch('api/calculate', {
+          method: 'post',
+          body: JSON.stringify(httpRequestData),
+        }).then((response) => {
+          return response.json();
+        }).then((httpResponseData) => {
+          let resultText;
+          if (httpResponseData.result !== undefined) {
+            resultText = "The summation is: " + httpResponseData.result;
+          } else {
+            resultText = "Something went wrong :(";
+          }
+          resultParagraph.innerText = resultText;
+        });
+      }
+    </script>
+</html>
